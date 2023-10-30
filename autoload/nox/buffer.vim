@@ -19,12 +19,7 @@ endfunction
 
 
 function! nox#buffer#document_id() abort
-   let l:id = nox#id#extract(expand('%'))
-   if l:id == ''
-      echoerr 'Not on nox'
-    else
-      return l:id
-   endif
+   return nox#id#from_url(expand('%'))
 endfunction
 
 
