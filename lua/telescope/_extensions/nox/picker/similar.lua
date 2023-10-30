@@ -46,7 +46,7 @@ local search = function (opts)
           value = task.id,
           display = task.display,
           ordinal = task.display .. ' ' .. task.id,
-          path = vim.fn['nox#document#path'](task.id)
+          path = vim.fn['nox#id#to_url'](task.id)
         }
       end
     },

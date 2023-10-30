@@ -99,22 +99,16 @@ function! nox#document#draft() abort
 endfunction
 
 
-function nox#document#index(file) abort
-  let l:file = fnamemodify(a:file, ':p')
-  for l:root in nox#config#roots()
-    let l:idx = stridx(l:file, l:root . '/')
-    if l:idx == 0
-      let l:id = l:file[len(l:root) + 1:-5]
-      call nox#api#index_document(l:id)
-      redraw
-      echomsg 'Indexed'
-      return
-    endif
-  endfor
+function nox#document#index(url) abort
+  let l:id = nox#id#from_url(a:url)
+  call nox#api#index_document(l:id)
 endfunction
 
 
 function! nox#document#move(destination_id) abort
+  " FIXME
+  echoerr 'Not Implemented'
+
   let l:destination_id = a:destination_id
 
   " If the first character is '/', it is NOT an ID
@@ -130,20 +124,6 @@ function! nox#document#move(destination_id) abort
   echomsg 'Moved to: ' . l:destination_id
 endfunction
 
-
-function! nox#document#path(id) abort
-  for l:root in nox#config#roots()
-    let l:fp = l:root . '/' . a:id . '.nox'
-    " To refresh
-    let l:dir = fnamemodify(l:fp, ':h')
-    silent call readdir(l:dir)
-    if isdirectory(l:dir) && filereadable(l:fp)
-      return l:fp
-    endif
-  endfor
-
-  return v:null
-endfunction
 
 function! nox#document#open(id, create, target) abort
   let l:id = substitute(a:id, '#[0-9]*$', '', '')
