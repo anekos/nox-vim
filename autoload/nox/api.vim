@@ -19,6 +19,30 @@ function! nox#api#ids(prefix) abort
 endfunction
 
 
+function! nox#api#get_document(id) abort
+  return nox#web#request('GET', '/api/document', {'id': a:id}, v:null)
+endfunction
+
+
+function! nox#api#get_source(id) abort
+  let l:result = nox#web#request('GET', '/api/source', {'id': a:id}, v:null)
+  if l:result != v:null
+    return split(l:result, "\n")
+  endif
+  return v:null
+endfunction
+
+
+function! nox#api#new_document_from_source(id, content) abort
+  return nox#web#request('POST', '/api/source', {'id': a:id}, json_encode(a:content))
+endfunction
+
+
+function! nox#api#update_document_from_source(id, content) abort
+  return nox#web#request('PUT', '/api/source', {'id': a:id}, json_encode(a:content))
+endfunction
+
+
 function! nox#api#index_document(id) abort
   return nox#web#request('PUT', '/api/index', {'id': a:id, 'update': 1}, v:null)
 endfunction

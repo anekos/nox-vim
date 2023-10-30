@@ -6,3 +6,12 @@ function! nox#id#extract(fp) abort
   endfor
   return ''
 endfunction
+
+
+function! nox#id#from_url(url) abort
+  if a:url !~# '^nox://'
+    echoerr 'Invalid nox url: ' . a:url
+  endif
+
+  return a:url[6:]
+endfunction
