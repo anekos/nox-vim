@@ -33,7 +33,7 @@ function search.picker(opts)
     vim.fn.setqflist(qf_entries)
   end
 
-  local opts = config.opts()
+  opts = config.opts()
 
   pickers.new(opts, {
     prompt_title = 'Nox Search',

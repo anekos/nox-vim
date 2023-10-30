@@ -47,12 +47,6 @@ au User asyncomplete_setup call asyncomplete#register_source({
 
 augroup NoxPlugin
   autocmd!
-  autocmd BufNewFile *.nox call nox#buffer#new(expand('<afile>'))
-  " XXX A workaround for an issue where the file is not actually written to.
-  autocmd BufWriteCmd *.nox call nox#autocmd#on_buf_write_cmd_old(expand('<afile>'))
-  " autocmd BufWritePre *.nox call nox#autocmd#on_buf_write_pre(expand('<afile>'))
-  " autocmd BufWritePost *.nox call nox#autocmd#on_buf_write_post(expand('<afile>'))
-
   autocmd BufReadCmd nox://* call nox#autocmd#on_buf_read_cmd(expand('<afile>'))
   autocmd BufWriteCmd nox://* call nox#autocmd#on_buf_write_cmd(expand('<afile>'))
 augroup END

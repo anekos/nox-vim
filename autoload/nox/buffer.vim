@@ -59,16 +59,10 @@ endfunction
 
 
 function! nox#buffer#is_nox() abort
-  return nox#id#extract(expand('%')) != ''
+  return 'nox://' == expand('%')[0:5]
 endfunction
 
-function! nox#buffer#new(file) abort
-  let l:id = nox#id#extract(a:file)
-  return nox#buffer#new_with_id(l:id)
-endfunction
-
-
-function! nox#buffer#new_with_id(id) abort
+function! nox#buffer#new(id) abort
   let l:segs = split(a:id, '/')
   call append(0, 'title: ' . l:segs[-1])
   call append(1, 'created-at: ' . nox#util#datetime())
