@@ -1,12 +1,8 @@
-local pickers = require('telescope.pickers')
-
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
-local themes = require('telescope.themes')
 
 local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
@@ -16,7 +12,7 @@ local search = {}
 function search.picker(opts)
   opts = opts or {}
 
-  query = opts.query or ''
+  local query = opts.query or ''
 
   local results = {}
   local ulids = {}

@@ -1,9 +1,13 @@
+local curl = require('plenary.curl')
+
+local config = require('telescope._extensions.nox.config')
+
 local util = {}
 
 local draft_prefix = 'draft/'
 
 function util.new_id()
-  local ids = get_drafts()
+  local ids = util.get_drafts()
   local id_number = 0
   while true do
     id_number = id_number + 1

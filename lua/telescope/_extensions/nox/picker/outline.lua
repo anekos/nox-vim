@@ -1,17 +1,14 @@
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
-local previewers = require('telescope.previewers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
 
-local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
 
 local outline = {}
 
-function indent(s, n)
+local indent = function (s, n)
   return string.rep(' ', (n - 1) * 2) .. s
 end
 
@@ -45,7 +42,7 @@ function outline.picker(opts)
       end
     },
     sorter = sorters.get_generic_fuzzy_sorter(),
-    attach_mappings = function(prompt_bufnr, map)
+    attach_mappings = function(prompt_bufnr, _)
       -- Open the document
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)

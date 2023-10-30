@@ -1,8 +1,5 @@
-local pickers = require('telescope.pickers')
-
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
@@ -45,12 +42,11 @@ local search = function (opts)
     finder = finders.new_table {
       results = results,
       entry_maker = function (task)
-        local id = task.id
         return {
-          value = id,
+          value = task.id,
           display = task.display,
           ordinal = task.display .. ' ' .. task.id,
-          path = vim.fn['nox#document#path'](id)
+          path = vim.fn['nox#document#path'](task.id)
         }
       end
     },
@@ -61,9 +57,9 @@ local search = function (opts)
       map('i', '<C-i>', function()
         actions.close(prompt_bufnr)
         local selection = state.get_selected_entry()
-        local id = selection.value
+        local selected_id = selection.value
         local parts = vim.fn.split(id, '/')
-        local ulid = ulids[id]
+        local ulid = ulids[selected_id]
         local text = '[' .. parts[#{parts}] .. '](@' .. ulid .. ')'
         vim.fn.append('.', text)
       end)
@@ -81,7 +77,7 @@ local search = function (opts)
 end
 
 function similar.picker(opts)
-  return search(config.opts(opts), config.tasks_query())
+  return search(config.opts(opts))
 end
 
 return similar

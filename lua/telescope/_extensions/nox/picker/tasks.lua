@@ -1,8 +1,5 @@
-local pickers = require('telescope.pickers')
-
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
@@ -95,7 +92,7 @@ function tasks.picker(opts)
 end
 
 function tasks.command(params)
-  tasks.picker(config.opts(), params.args)
+  return search(config.opts(), params.args)
 end
 
 vim.api.nvim_create_user_command(
