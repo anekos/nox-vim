@@ -154,23 +154,14 @@ function! nox#document#open(id, create, target) abort
     let l:nth = -1
   endif
 
-  let l:path = nox#document#path(l:id)
-  if l:path == v:null
-    if a:create
-      if a:target == 'tab'
-        tabnew
-      endif
-      execute 'edit' (g:nox_roots[0] . '/' . a:id . '.nox')
-    else
-      echoerr 'Not found: ' . l:id
-    endif
-    return
-  endif
+  let l:url = nox#id#to_url(a:id)
 
   if a:target == 'tab'
     tabnew
   endif
-  execute 'edit' l:path
+
+  execute 'edit' l:url
+
   if 0 <= l:nth
     call s:goto_nth_header(l:nth)
   endif

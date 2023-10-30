@@ -15,3 +15,8 @@ function! nox#id#from_url(url) abort
 
   return a:url[6:]
 endfunction
+
+
+function! nox#id#to_url(id) abort
+  return 'nox://' . a:id
+endfunction
