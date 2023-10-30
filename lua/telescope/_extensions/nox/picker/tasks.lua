@@ -6,6 +6,7 @@ local state = require('telescope.actions.state')
 
 local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
+local previewer = require('telescope._extensions.nox.previewer')
 
 local tasks = {}
 
@@ -62,6 +63,7 @@ local search = function (opts, query)
       end
     },
     sorter = sorters.get_generic_fuzzy_sorter(),
+    previewer = previewer,
     attach_mappings = function(prompt_bufnr, map)
 
       -- Insert the link
