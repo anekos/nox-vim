@@ -26,7 +26,7 @@ command! -nargs=*
 command! -nargs=1
   \ -complete=customlist,nox#completion#ids
   \ NoxOpen
-  \ call nox#document#open(<q-args>, v:true, '')
+  \ call nox#document#open(nox#id#cleanup(<q-args>), v:true, '')
 
 command! -nargs=1
   \ -complete=customlist,nox#completion#ids
