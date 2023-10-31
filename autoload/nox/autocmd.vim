@@ -24,4 +24,5 @@ function! nox#autocmd#on_buf_write_cmd(url)
   else
     call nox#api#update_document_from_source(l:id, l:buffer_content)
   endif
+  setlocal nomodified
 endfunction
