@@ -32,6 +32,7 @@ command! -nargs=1
   \ -complete=customlist,nox#completion#ids
   \ NoxRename
   \ call nox#document#move(<q-args>)
+
 command! -nargs=?
   \ -complete=customlist,nox#completion#tags
   \ NoxTag
