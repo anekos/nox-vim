@@ -71,25 +71,6 @@ function! nox#buffer#new(id) abort
 endfunction
 
 
-function! nox#buffer#ogp(format = '', url = '') abort
-  if a:format != ''
-    let l:format = a:format
-  else
-    let l:format = 'dl-img'
-  endif
-  if a:url != ''
-    let l:url = a:url
-  else
-    " TODO See 'clipboard' option
-    let l:url = @*
-  endif
-  echo l:url
-
-  let l:res = nox#api#ogp_text(l:format, l:url)
-  call append('.', split(l:res, '\n'))
-endfunction
-
-
 function! nox#buffer#pre() abort
   let l:source = getline(1, '$')
 
