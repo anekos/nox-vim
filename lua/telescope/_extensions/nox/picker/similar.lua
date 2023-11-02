@@ -1,10 +1,6 @@
-local pickers = require('telescope.pickers')
-
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
-local previewers = require('telescope.previewers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
 
@@ -32,7 +28,7 @@ local search = function (opts)
     local qf_entries = {}
     for _, task in ipairs(results) do
       if task.document then
-        local path = vim.fn['nox#document#path'](task.id)
+        local path = vim.fn['nox#id#to_url'](task.id)
         local qf = {filename = path, lnum = 1, col = 1, type = 'W'}
         table.insert(qf_entries, qf)
       end
@@ -46,26 +42,24 @@ local search = function (opts)
     finder = finders.new_table {
       results = results,
       entry_maker = function (task)
-        local id = task.id
         return {
-          value = id,
+          value = task.id,
           display = task.display,
           ordinal = task.display .. ' ' .. task.id,
-          path = vim.fn['nox#document#path'](id)
+          path = vim.fn['nox#id#to_url'](task.id)
         }
       end
     },
     sorter = sorters.get_generic_fuzzy_sorter(),
-    previewer = previewers.cat.new({}),
     attach_mappings = function(prompt_bufnr, map)
 
       -- Insert the link
       map('i', '<C-i>', function()
         actions.close(prompt_bufnr)
         local selection = state.get_selected_entry()
-        local id = selection.value
+        local selected_id = selection.value
         local parts = vim.fn.split(id, '/')
-        local ulid = ulids[id]
+        local ulid = ulids[selected_id]
         local text = '[' .. parts[#{parts}] .. '](@' .. ulid .. ')'
         vim.fn.append('.', text)
       end)
@@ -83,7 +77,7 @@ local search = function (opts)
 end
 
 function similar.picker(opts)
-  return search(config.opts(opts), config.tasks_query())
+  return search(config.opts(opts))
 end
 
 return similar

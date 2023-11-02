@@ -19,12 +19,7 @@ endfunction
 
 
 function! nox#buffer#document_id() abort
-   let l:id = nox#id#extract(expand('%'))
-   if l:id == ''
-      echoerr 'Not on nox'
-    else
-      return l:id
-   endif
+   return nox#id#from_url(expand('%'))
 endfunction
 
 
@@ -64,12 +59,11 @@ endfunction
 
 
 function! nox#buffer#is_nox() abort
-  return nox#id#extract(expand('%')) != ''
+  return 'nox://' == expand('%')[0:5]
 endfunction
 
-function! nox#buffer#new(file) abort
-  let l:id = nox#id#extract(a:file)
-  let l:segs = split(l:id, '/')
+function! nox#buffer#new(id) abort
+  let l:segs = split(a:id, '/')
   call append(0, 'title: ' . l:segs[-1])
   call append(1, 'created-at: ' . nox#util#datetime())
   call append(2, '')

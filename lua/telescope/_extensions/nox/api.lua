@@ -4,10 +4,10 @@ local config = require('telescope._extensions.nox.config')
 
 local api = {}
 
-function headers()
-  local headers = {}
-  headers['x-password'] = vim.g.nox_password
-  return headers
+local headers = function ()
+  local result = {}
+  result['x-password'] = vim.g.nox_password
+  return result
 end
 
 function api.search(query)

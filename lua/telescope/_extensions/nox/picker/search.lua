@@ -1,23 +1,19 @@
-local pickers = require('telescope.pickers')
-
 local actions = require('telescope.actions')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
-local previewers = require('telescope.previewers')
 local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
-local themes = require('telescope.themes')
 
 local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
+local previewer = require('telescope._extensions.nox.previewer')
 
 local search = {}
 
 function search.picker(opts)
   opts = opts or {}
 
-  query = opts.query or ''
+  local query = opts.query or ''
 
   local results = {}
   local ulids = {}
@@ -30,7 +26,7 @@ function search.picker(opts)
   if config.use_location_list() then
     local qf_entries = {}
     for _, id in ipairs(results) do
-      local path = vim.fn['nox#document#path'](id)
+      local path = vim.fn['nox#id#to_url'](id)
       local qf = {filename = path, lnum = 1, col = 1, type = 'W'}
       table.insert(qf_entries, qf)
     end
@@ -38,7 +34,7 @@ function search.picker(opts)
     vim.fn.setqflist(qf_entries)
   end
 
-  local opts = config.opts()
+  opts = config.opts()
 
   pickers.new(opts, {
     prompt_title = 'Nox Search',
@@ -50,12 +46,12 @@ function search.picker(opts)
           value = id,
           display = id,
           ordinal = id,
-          path = vim.fn['nox#document#path'](id)
+          path = vim.fn['nox#id#to_url'](id)
         }
       end
     },
     sorter = sorters.get_generic_fuzzy_sorter(),
-    previewer = previewers.cat.new({}),
+    previewer = previewer,
     attach_mappings = function(prompt_bufnr, map)
 
       -- Insert the link
