@@ -62,6 +62,7 @@ function! nox#buffer#is_nox() abort
   return 'nox://' == expand('%')[0:5]
 endfunction
 
+
 function! nox#buffer#new(id) abort
   let l:segs = split(a:id, '/')
   call append(0, 'title: ' . l:segs[-1])
