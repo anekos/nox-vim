@@ -1,9 +1,9 @@
-local buffer = require('nox.buffer')
+local command = require('nox.command')
 
 vim.api.nvim_create_user_command(
   'NoxOgp',
   function (opts)
-    buffer.convert_url(opts.args)
+    command.ogp(opts.args)
   end,
   {
     nargs = '*',

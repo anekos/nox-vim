@@ -18,11 +18,6 @@ command! -nargs=0
   \ NoxDraft
   \ call nox#document#draft()
 
-command! -nargs=*
-  \ -complete=customlist,nox#completion#ogp_format
-  \ NoxOgp
-  \ call nox#buffer#ogp(<f-args>)
-
 command! -nargs=1
   \ -complete=customlist,nox#completion#ids
   \ NoxOpen
