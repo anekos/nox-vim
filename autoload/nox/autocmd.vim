@@ -26,7 +26,6 @@ function! nox#autocmd#on_buf_write_cmd(url)
     call nox#api#new_document_from_source(l:id, l:buffer_content)
     let b:nox_new_buffer = v:false
   else
-    echomsg l:updated_at
     call nox#api#update_document_from_source(l:id, l:buffer_content, l:updated_at)
   endif
 
