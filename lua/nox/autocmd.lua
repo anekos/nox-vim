@@ -6,7 +6,7 @@ function M.on_buf_write_cmd(url)
   local id = vim.fn['nox#id#from_url'](url)
 
   local updated_at = vim.fn['nox#buffer#get_attribute']('updated-at')
-  updated_at = vim.fn['nox#util#datetime_to_api_format']
+  updated_at = vim.fn['nox#util#datetime_to_api_format'](updated_at)
 
   vim.fn['nox#buffer#pre']()
 
