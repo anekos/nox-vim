@@ -10,7 +10,7 @@ endfunction
 
 
 function! nox#util#datetime_to_api_format(at)
-  if type(l:updated_at) == type(v:null)
+  if type(a:at) == type(v:null)
     return v:null
   endif
   let l:at = a:at
