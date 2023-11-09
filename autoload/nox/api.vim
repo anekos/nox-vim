@@ -38,8 +38,12 @@ function! nox#api#new_document_from_source(id, content) abort
 endfunction
 
 
-function! nox#api#update_document_from_source(id, content) abort
-  return nox#web#request('PUT', '/api/source', {'id': a:id}, json_encode(a:content))
+function! nox#api#update_document_from_source(id, content, update_from) abort
+  let l:data = {'id': a:id}
+  if type(a:update_from) !=# type(v:null)
+    let l:data['update_from'] = a:update_from
+  endif
+  return nox#web#request('PUT', '/api/source', data, json_encode(a:content))
 endfunction
 
 

@@ -18,13 +18,44 @@ function! nox#buffer#add_tag(tag) abort
 endfunction
 
 
+function! nox#buffer#add_tag(tag) abort
+  let l:to = -1
+
+  let l:tag = join(split(a:tag, '/'), ' -> ')
+
+  for l:ln in range(1, line('$'))
+    let l:line = getline(l:ln)
+    if match(l:line, '\v(title|tag):') == 0
+      let l:to = l:ln
+    endif
+  endfor
+
+  call append(l:to, 'tag: ' . l:tag)
+endfunction
+
+
 function! nox#buffer#document_id() abort
    return nox#id#from_url(expand('%'))
 endfunction
 
 
+function nox#buffer#get_attribute(name)
+  let l:lines = nox#buffer#headers()[2]
+
+  for l:line in l:lines
+    let l:at = stridx(l:line, ':')
+    let l:name = strpart(l:line, 0, l:at)
+    if l:name == a:name
+      return strpart(l:line, l:at + 2)
+    endif
+  endfor
+
+  return v:null
+endfunction
+
+
 function! nox#buffer#headers() abort
-  " Returns [header lines]
+  " Returns [start lnum, end lnum, header lines]
 
   let l:position = 'before_header'
   let l:lnum = -1
