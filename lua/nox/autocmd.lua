@@ -13,6 +13,7 @@ function M.on_buf_write_cmd(url)
   local buffer_content = vim.fn.join(vim.fn.getline(1, '$'), "\n")
   if vim.b.nox_new_buffer then
     vim.fn['nox#api#new_document_from_source'](id, buffer_content)
+    vim.b.nox_new_buffer = false
   else
     api.update_document_from_source(id, buffer_content, updated_at)
   end
