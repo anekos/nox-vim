@@ -9,7 +9,7 @@ end, {
   range = true,
 })
 
-local au_group = vim.api.nvim_create_augroup('UserLspConfig', {})
+local au_group = vim.api.nvim_create_augroup('NoxPluginLua', {})
 
 vim.api.nvim_create_autocmd('BufWriteCmd', {
   group = au_group,
