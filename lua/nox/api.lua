@@ -27,16 +27,27 @@ local vanish = function(tbl)
 end
 
 local request = function(method, path, query, body)
+  local body_file = nil
+
+  if body ~= nil then
+    body_file = vim.fn.tempname()
+    vim.fn.writefile({ vim.fn.json_encode(body) }, body_file)
+  end
+
   local resp = curl.request {
     url = vim.g.nox_endpoint .. path,
     method = method,
     query = (query and vanish(query)),
-    body = (body and vim.fn.json_encode(body)),
+    body = body_file,
     headers = make_headers(),
   }
 
   if resp.status ~= 200 then
     error('Failed to update')
+  end
+
+  if body_file ~= nil then
+    vim.fn.delete(body_file)
   end
 
   return vim.fn.json_decode(resp.body)
