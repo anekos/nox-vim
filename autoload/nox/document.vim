@@ -106,9 +106,6 @@ endfunction
 
 
 function! nox#document#move(destination_id) abort
-  " FIXME
-  echoerr 'Not Implemented'
-
   let l:destination_id = a:destination_id
 
   " If the first character is '/', it is NOT an ID
