@@ -56,11 +56,11 @@ end
 -- }}}
 
 function M.new_document_from_source(id, content)
-  return request('post', '/api/source', vanish { id = id }, content)
+  return request('post', '/api/source', vanish { id = id, sync = "1" }, content)
 end
 
 function M.update_document_from_source(id, content, update_from)
-  return request('put', '/api/source', vanish { id = id, update_from = update_from }, content)
+  return request('put', '/api/source', vanish { id = id, update_from = update_from, sync = "1" }, content)
 end
 
 return M
