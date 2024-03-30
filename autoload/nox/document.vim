@@ -108,6 +108,11 @@ endfunction
 function! nox#document#move(destination_id) abort
   let l:destination_id = a:destination_id
 
+  " If destination_id's prefix is `nox://', remove the prefix
+  if l:destination_id[0:5] ==# 'nox://'
+    let l:destination_id = l:destination_id[6:]
+  endif
+
   " If the first character is '/', it is NOT an ID
   if l:destination_id[0] ==# '/' || fnamemodify(l:destination_id, ':e') ==# 'nox'
     echoerr 'Invalid ID: ' . l:destination_id
