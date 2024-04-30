@@ -7,6 +7,7 @@ function M.on_buf_write_cmd(url)
 
   local updated_at = vim.fn['nox#buffer#get_attribute']('updated-at')
   if updated_at == vim.NIL then
+    -- XXX This is a meaningless value
     updated_at = vim.fn.strftime('Mon, 05 Feb 2024 11:26:38 +0900')
   end
   updated_at = vim.fn['nox#util#datetime_to_api_format'](updated_at)
