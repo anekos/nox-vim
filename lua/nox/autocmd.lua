@@ -5,11 +5,13 @@ local M = {}
 function M.on_buf_write_cmd(url)
   local id = vim.fn['nox#id#from_url'](url)
 
-  local updated_at = vim.fn['nox#buffer#get_attribute']('updated-at')
+  local updated_at = vim.b.nox_updated_at or vim.fn['nox#buffer#get_attribute']('updated-at')
+
   if updated_at == vim.NIL then
     -- XXX This is a meaningless value
     updated_at = vim.fn.strftime('Mon, 05 Feb 2024 11:26:38 +0900')
   end
+
   updated_at = vim.fn['nox#util#datetime_to_api_format'](updated_at)
 
   vim.fn['nox#buffer#pre']()
@@ -21,6 +23,8 @@ function M.on_buf_write_cmd(url)
   else
     api.update_document_from_source(id, buffer_content, updated_at)
   end
+
+  vim.b.nox_updated_at = vim.fn['nox#buffer#get_attribute']('updated-at')
 
   vim.cmd.setlocal('nomodified')
 end
