@@ -11,6 +11,8 @@ function! nox#autocmd#on_buf_read_cmd(url)
 
   let b:nox_new_buffer = v:false
   call setline(1, l:source)
+
+  let b:nox_updated_at = nox#buffer#get_attribute('updated-at')
 endfunction
 
 
