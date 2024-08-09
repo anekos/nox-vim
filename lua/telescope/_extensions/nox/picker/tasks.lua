@@ -67,7 +67,7 @@ local search = function (opts, query)
     attach_mappings = function(prompt_bufnr, map)
 
       -- Insert the link
-      map('i', '<C-i>', function()
+      map({'i', 'n'}, '<C-l>', function()
         actions.close(prompt_bufnr)
         local selection = state.get_selected_entry()
         local id = selection.value
