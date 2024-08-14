@@ -50,4 +50,18 @@ function M.open_link_on_cursor(open_command, fallback)
   open(open_command, vim.fn['nox#id#to_url'](id))
 end
 
+function M.back_references()
+  local ulid = vim.fn['nox#buffer#get_attribute']('ulid')
+  local query
+
+  if ulid == nil then
+    local id = vim.fn['nox#buffer#document_id']()
+    query = '&@"' .. id .. '"'
+  else
+    query = '&@' .. ulid
+  end
+
+  require('telescope._extensions.nox.picker.search').picker { query = query }
+end
+
 return M

@@ -27,3 +27,8 @@ vim.api.nvim_create_autocmd('BufWriteCmd', {
     autocmd.on_buf_write_cmd(ev.file)
   end,
 })
+
+vim.api.nvim_create_user_command('NoxBackref', function()
+  command.back_references()
+end, {})
+
