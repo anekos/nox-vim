@@ -17,7 +17,9 @@ endfunction
 
 
 function! s:goto_nth_header(nth)
-  let l:h1s = 0
+  " 0 origin
+
+  let l:h1s = -1
   for l:ln in range(1, line('$'))
     let l:line = getline(l:ln)
     if 0 <= match(l:line, '^#[^#]\+')
@@ -30,6 +32,10 @@ function! s:goto_nth_header(nth)
   endfor
 endfunction
 
+
+function! nox#document#goto_nth_header(nth) abort
+  call s:goto_nth_header(a:nth)
+endfunction
 
 function! nox#document#attach_file(filepath) abort
   let l:id = nox#buffer#document_id()
