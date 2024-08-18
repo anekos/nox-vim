@@ -136,7 +136,7 @@ function! nox#document#open(id, create, target) abort
     let l:nth = -1
   endif
 
-  let l:url = nox#id#to_url(a:id)
+  let l:url = nox#id#to_url(l:id)
 
   if a:target == 'tab'
     tabnew
