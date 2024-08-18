@@ -24,6 +24,11 @@ local search = function (opts)
     ulids[hit.id] = hit.source.ulid
   end
 
+  if #results == 0 then
+    vim.notify('No results found', vim.log.levels.ERROR)
+    return
+  end
+
   if config.use_location_list() then
     local qf_entries = {}
     for _, task in ipairs(results) do
