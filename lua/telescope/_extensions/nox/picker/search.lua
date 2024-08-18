@@ -1,4 +1,5 @@
 local actions = require('telescope.actions')
+local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
@@ -10,8 +11,19 @@ local previewer = require('telescope._extensions.nox.previewer')
 
 local search = {}
 
-local function display_from_hit(hit)
-  return hit.source.title .. ' - ' .. hit.id
+local displayer = entry_display.create {
+  separator = ' ',
+  items = {
+    { width = 0.4 },
+    { remaining = true },
+  },
+}
+
+local function display_from_entry(entry)
+  return displayer {
+    { entry.value.source.title, 'TelescopeResultsNumber' },
+    { entry.value.source.id, 'TelescopeResultsComment' },
+  }
 end
 
 function search.picker(opts)
@@ -53,7 +65,7 @@ function search.picker(opts)
         entry_maker = function(hit)
           return {
             value = hit,
-            display = display_from_hit(hit),
+            display = display_from_entry,
             ordinal = hit.id,
             path = vim.fn['nox#id#to_url'](hit.id),
           }
