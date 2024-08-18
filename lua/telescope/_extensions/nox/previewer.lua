@@ -3,10 +3,8 @@ local previewers = require('telescope.previewers')
 return previewers.new_buffer_previewer {
   title = 'Config',
   define_preview = function(self, entry, _)
-    local id = entry.value
-    id = id:gsub('#.*', '')
-
-    local lines = vim.fn['nox#api#get_source'](id)
+    local hit = entry.value
+    local lines = vim.split(hit.source.text, '\n')
 
     if lines == vim.NIL then
       lines = { 'Empty' }
