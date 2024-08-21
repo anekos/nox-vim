@@ -97,7 +97,6 @@ endfunction
 function! nox#buffer#new(id) abort
   let l:segs = split(a:id, '/')
   call append(0, 'title: ' . l:segs[-1])
-  call append(1, 'created-at: ' . nox#util#datetime())
   call append(2, '')
   execute 'normal G'
 endfunction
@@ -108,12 +107,16 @@ function! nox#buffer#pre() abort
 
   try | undojoin | catch | endtry
   if get(g:, 'nox_use_pre_api', 1)
-    let l:source = nox#api#pre(l:source)
+    let l:doc = nox#api#pre(l:source, 1)
+    call s:Buffer.edit_content(split(l:doc.source, '\n'))
+    if !exists('b:nox_created_at')
+      let b:nox_created_at = l:doc.meta.created_at
+    endif
+    let b:nox_updated_at = l:doc.meta.updated_at
   else
     let l:source = nox#edit#pre(l:source)
+    call s:Buffer.edit_content(l:source)
   end
-
-  call s:Buffer.edit_content(l:source)
 endfunction
 
 
