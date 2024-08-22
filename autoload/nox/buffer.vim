@@ -102,19 +102,6 @@ function! nox#buffer#new(id) abort
 endfunction
 
 
-function! nox#buffer#pre() abort
-  let l:source = getline(1, '$')
-
-  try | undojoin | catch | endtry
-  if get(g:, 'nox_use_pre_api', 1)
-    let b:nox_meta = nox#api#meta(nox#buffer#document_id(), 1)
-  else
-    let l:source = nox#edit#pre(l:source)
-    call s:Buffer.edit_content(l:source)
-  end
-endfunction
-
-
 function! nox#buffer#tags() abort
   let [l:start, l:end, l:lines] = nox#buffer#headers()
   let l:result = []

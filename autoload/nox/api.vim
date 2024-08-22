@@ -48,11 +48,6 @@ function! nox#api#index_document(id) abort
 endfunction
 
 
-function! nox#api#meta(id, update) abort
-  return nox#web#request('GET', '/api/meta', {'id': a:id, 'update': a:update}, v:null)
-endfunction
-
-
 function! nox#api#move_document(source_id, destination_id) abort
   return nox#web#request('GET', '/api/move_document', {'source_id': a:source_id, 'destination_id': a:destination_id}, v:null)
 endfunction
@@ -75,9 +70,4 @@ endfunction
 
 function! nox#api#tags() abort
   return nox#web#request('GET', '/api/tags', {}, v:null)
-endfunction
-
-
-function! nox#api#pre(source, as_source) abort
-  return nox#web#request('POST', '/api/document/pre', {'as_source': a:as_source}, json_encode(a:source))
 endfunction
