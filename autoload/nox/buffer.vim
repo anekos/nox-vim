@@ -97,23 +97,8 @@ endfunction
 function! nox#buffer#new(id) abort
   let l:segs = split(a:id, '/')
   call append(0, 'title: ' . l:segs[-1])
-  call append(1, 'created-at: ' . nox#util#datetime())
   call append(2, '')
   execute 'normal G'
-endfunction
-
-
-function! nox#buffer#pre() abort
-  let l:source = getline(1, '$')
-
-  try | undojoin | catch | endtry
-  if get(g:, 'nox_use_pre_api', 1)
-    let l:source = nox#api#pre(l:source)
-  else
-    let l:source = nox#edit#pre(l:source)
-  end
-
-  call s:Buffer.edit_content(l:source)
 endfunction
 
 

@@ -20,6 +20,14 @@ end, {
 
 local au_group = vim.api.nvim_create_augroup('NoxPluginLua', {})
 
+vim.api.nvim_create_autocmd('BufReadCmd', {
+  group = au_group,
+  pattern = 'nox://*',
+  callback = function(ev)
+    autocmd.on_buf_read_cmd(ev.file)
+  end,
+})
+
 vim.api.nvim_create_autocmd('BufWriteCmd', {
   group = au_group,
   pattern = 'nox://*',

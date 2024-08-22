@@ -33,17 +33,13 @@ function! nox#api#get_source(id) abort
 endfunction
 
 
-function! nox#api#new_document_from_source(id, content) abort
-  return nox#web#request('POST', '/api/source', {'id': a:id}, json_encode(a:content))
-endfunction
-
-
-function! nox#api#update_document_from_source(id, content, update_from) abort
-  let l:data = {'id': a:id}
-  if type(a:update_from) !=# type(v:null)
-    let l:data['update_from'] = a:update_from
+function! nox#api#get_source_with_meta(id) abort
+  let l:result = nox#web#request('GET', '/api/source_with_meta', {'id': a:id}, v:null)
+  if type(l:result) == type(v:null)
+    return v:null
   endif
-  return nox#web#request('PUT', '/api/source', data, json_encode(a:content))
+  let l:result.source = split(l:result.source, "\n")
+  return l:result
 endfunction
 
 
@@ -74,9 +70,4 @@ endfunction
 
 function! nox#api#tags() abort
   return nox#web#request('GET', '/api/tags', {}, v:null)
-endfunction
-
-
-function! nox#api#pre(source) abort
-  return nox#web#request('POST', '/api/document/pre', {'as_source': 1}, json_encode(a:source))
 endfunction

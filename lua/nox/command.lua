@@ -54,7 +54,7 @@ function M.back_references()
   local ulid = vim.fn['nox#buffer#get_attribute']('ulid')
   local query
 
-  if ulid == nil then
+  if ulid == vim.NIL then
     local id = vim.fn['nox#buffer#document_id']()
     query = '&@"' .. id .. '"'
   else
