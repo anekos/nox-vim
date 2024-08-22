@@ -66,7 +66,7 @@ function search.picker(opts)
           return {
             value = hit,
             display = display_from_entry,
-            ordinal = hit.id,
+            ordinal = hit.source.title .. ' ' .. hit.id,
             path = vim.fn['nox#id#to_url'](hit.id),
           }
         end,
