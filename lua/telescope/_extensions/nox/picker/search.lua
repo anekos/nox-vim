@@ -2,8 +2,8 @@ local actions = require('telescope.actions')
 local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
-local sorters = require('telescope.sorters')
 local state = require('telescope.actions.state')
+local telescope_conf = require("telescope.config").values
 
 local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
@@ -71,7 +71,7 @@ function search.picker(opts)
           }
         end,
       },
-      sorter = sorters.get_generic_fuzzy_sorter(),
+      sorter = telescope_conf.generic_sorter(opts),
       previewer = previewer,
       attach_mappings = function(prompt_bufnr, map)
         -- Insert the link
