@@ -39,10 +39,3 @@ au User asyncomplete_setup call asyncomplete#register_source({
       \ 'allowlist': ['nox'],
       \ 'completor': function('nox#completion#asyncomplete#completor'),
       \ })
-
-
-augroup NoxPlugin
-  autocmd!
-  autocmd BufReadCmd nox://* call nox#autocmd#on_buf_read_cmd(expand('<afile>'))
-  " autocmd BufWriteCmd nox://* call nox#autocmd#on_buf_write_cmd(expand('<afile>'))
-augroup END

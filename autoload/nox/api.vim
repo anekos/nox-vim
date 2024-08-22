@@ -43,19 +43,13 @@ function! nox#api#get_source_with_meta(id) abort
 endfunction
 
 
-function! nox#api#new_document_from_source(id, content) abort
-  return nox#web#request('POST', '/api/source', {'id': a:id}, json_encode(a:content))
-endfunction
-
-
-function! nox#api#update_document_from_source(id, content, created_at, updated_at) abort
-  let l:data = {'id': a:id, 'created_at': a:created_at, 'updated_at': a:updated_at}
-  return nox#web#request('PUT', '/api/source', l:data, json_encode(a:content))
-endfunction
-
-
 function! nox#api#index_document(id) abort
   return nox#web#request('PUT', '/api/index', {'id': a:id, 'update': 1}, v:null)
+endfunction
+
+
+function! nox#api#meta(id, update) abort
+  return nox#web#request('GET', '/api/meta', {'id': a:id, 'update': a:update}, v:null)
 endfunction
 
 

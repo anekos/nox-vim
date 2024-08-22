@@ -107,12 +107,7 @@ function! nox#buffer#pre() abort
 
   try | undojoin | catch | endtry
   if get(g:, 'nox_use_pre_api', 1)
-    let l:doc = nox#api#pre(l:source, 1)
-    call s:Buffer.edit_content(split(l:doc.source, '\n'))
-    if !exists('b:nox_created_at')
-      let b:nox_created_at = l:doc.meta.created_at
-    endif
-    let b:nox_updated_at = l:doc.meta.updated_at
+    let b:nox_meta = nox#api#meta(nox#buffer#document_id(), 1)
   else
     let l:source = nox#edit#pre(l:source)
     call s:Buffer.edit_content(l:source)
