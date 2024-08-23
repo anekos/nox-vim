@@ -21,3 +21,8 @@ function! nox#id#cleanup(path)
   endif
   return a:path
 endfunction
+
+function! nox#id#make_title(id) abort
+  let l:segs = split(a:id, '/')
+  return l:segs[-1]
+endfunction

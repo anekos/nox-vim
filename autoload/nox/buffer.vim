@@ -94,14 +94,6 @@ function! nox#buffer#is_nox() abort
 endfunction
 
 
-function! nox#buffer#new(id) abort
-  let l:segs = split(a:id, '/')
-  call append(0, 'title: ' . l:segs[-1])
-  call append(2, '')
-  execute 'normal G'
-endfunction
-
-
 function! nox#buffer#tags() abort
   let [l:start, l:end, l:lines] = nox#buffer#headers()
   let l:result = []

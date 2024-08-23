@@ -8,9 +8,12 @@ function M.on_buf_read_cmd(url)
   vim.o.filetype = 'nox'
 
   if result == vim.NIL then
-    vim.b.nox_meta = api.meta(id, 0)
-    vim.fn['nox#buffer#new'](id)
+    local title = vim.fn['nox#id#make_title'](id)
+    local new = api.new(id, title)
+    vim.b.nox_meta = new.meta
     vim.b.nox_new_buffer = true
+    vim.fn.setline(1, vim.split(new.source, '\n'))
+    vim.cmd.normal('G')
     return
   end
 

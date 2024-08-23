@@ -59,6 +59,10 @@ function M.meta(id, update)
   return request('get', '/api/meta', vanish { id = id, update = update })
 end
 
+function M.new(id, title)
+  return request('get', '/api/new', vanish { id = id, title = title })
+end
+
 function M.new_document_from_source(id, source, meta)
   local params = { id = id, sync = '1' }
   local body = { source = source, meta = meta }
