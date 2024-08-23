@@ -18,22 +18,6 @@ function! nox#buffer#add_tag(tag) abort
 endfunction
 
 
-function! nox#buffer#add_tag(tag) abort
-  let l:to = -1
-
-  let l:tag = join(split(a:tag, '/'), ' -> ')
-
-  for l:ln in range(1, line('$'))
-    let l:line = getline(l:ln)
-    if match(l:line, '\v(title|tag):') == 0
-      let l:to = l:ln
-    endif
-  endfor
-
-  call append(l:to, 'tag: ' . l:tag)
-endfunction
-
-
 function! nox#buffer#document_id() abort
    return nox#id#from_url(expand('%'))
 endfunction
