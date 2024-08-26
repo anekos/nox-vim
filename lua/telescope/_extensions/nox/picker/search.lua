@@ -3,7 +3,7 @@ local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local state = require('telescope.actions.state')
-local telescope_conf = require("telescope.config").values
+local telescope_conf = require('telescope.config').values
 
 local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
@@ -32,11 +32,9 @@ function search.picker(opts)
   local query = opts.query or ''
 
   local results = {}
-  local ulids = {}
 
   for _, hit in ipairs(api.search(query)) do
     table.insert(results, hit)
-    ulids[hit.id] = hit.source.ulid
   end
 
   if #results == 0 then
@@ -75,13 +73,12 @@ function search.picker(opts)
       previewer = previewer,
       attach_mappings = function(prompt_bufnr, map)
         -- Insert the link
-        map('i', '<C-i>', function()
+        map({ 'i', 'n' }, '<C-l>', function()
           actions.close(prompt_bufnr)
           local selection = state.get_selected_entry()
-          local id = selection.value
-          local parts = vim.fn.split(id, '/')
-          local ulid = ulids[id]
-          local text = '[' .. parts[#{ parts }] .. '](@' .. ulid .. ')'
+          local hit = selection.value
+          local parts = vim.fn.split(hit.source.title, '/')
+          local text = '[' .. parts[#{ parts }] .. '](@' .. hit.source.ulid .. ')'
           vim.fn.append('.', text)
         end)
 
