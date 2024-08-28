@@ -82,6 +82,14 @@ function search.picker(opts)
           vim.fn.append('.', text)
         end)
 
+        map({ 'i', 'n' }, '<C-e>', function()
+          actions.close(prompt_bufnr)
+          local selection = state.get_selected_entry()
+          local hit = selection.value
+          local keys = vim.api.nvim_replace_termcodes(':<C-u>NoxOpen ' .. hit.id, true, false, true)
+          vim.api.nvim_feedkeys(keys, 'n', false)
+        end)
+
         -- Open the document
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)
