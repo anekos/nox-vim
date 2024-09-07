@@ -8,13 +8,15 @@ local config = require('telescope._extensions.nox.config')
 local buffer = require('nox.buffer')
 
 local outline = {}
+local reject_chars = vim.trim([[ [^[:alnum:][:space:]-\u3000-\u30ff\u4e00-\u9fff] ]])
 
 local indent = function(s, n)
   return string.rep(' ', (n - 1) * 2) .. s
 end
 
 local to_anchor_id = function(s)
-  return vim.trim(s:gsub('[^%w%s%-]+', ''):lower():gsub(' ', '-'))
+  s = vim.fn.substitute(s, reject_chars, '', 'g')
+  return vim.trim(s:lower():gsub(' ', '-'))
 end
 
 function outline.picker(opts)
