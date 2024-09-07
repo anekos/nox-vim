@@ -8,8 +8,9 @@ endif
 
 syntax include @markdown syntax/markdown.vim
 
-syntax region NoxContent  start=/./ skip=/./ end=/NOX/ contains=@markdown,NoxMeta
-syntax match NoxMeta /^[-a-z]\+:.*$/ contained
+syntax region NoxHeader start=/\%^/ end=/^\s*$/me=s-1 contains=NoxMeta
+syntax region NoxContent start=/^\s*$/ skip=/./ end=/NOX/ contains=@markdown
+syntax match NoxMeta /^[-a-z]\+:.*$/ contained containedin=NoxHeader
 
 
 highlight link NoxMeta Comment
