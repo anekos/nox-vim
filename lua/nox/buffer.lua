@@ -11,10 +11,13 @@ function M.replace_text(replacement)
   vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, vim.fn.split(new_text, '\n'))
 end
 
-local function get_syntax_range(line, col)
+local function get_syntax_name(line, col)
   local syn_id = vim.fn.synID(line, col, 1)
+  return vim.fn.synIDattr(syn_id, 'name')
+end
 
-  local syn_name = vim.fn.synIDattr(syn_id, 'name')
+local function get_syntax_range(line, col)
+  local syn_name = get_syntax_name(line, col)
 
   -- print('syn_name: ' .. syn_name)
 
@@ -111,6 +114,28 @@ function M.link_on_cursor()
   local line = vim.fn.line('.')
   local col = vim.fn.col('.')
   return search_link_syntax(line, col, 0)
+end
+
+function M.headings()
+  -- { { level = 1, text = 'heading1' }, { level = 2, text = 'heading' } ... }
+
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local headings = {}
+  for ln = 1, #lines do
+    if get_syntax_name(ln, 1) == 'mkdHeading' then
+      local line = lines[ln]
+      local level = #line:match('^#+')
+      local text = vim.trim(line:gsub('%[(.+)%]%(.+%)', ' %1 '):gsub(' +', ' '):gsub('# *', ''))
+      table.insert(headings, {
+        level = level,
+        line = vim.trim(line:sub(level + 1)),
+        text = text,
+        line_number = ln,
+      })
+    end
+  end
+
+  return headings
 end
 
 return M
