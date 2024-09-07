@@ -74,6 +74,10 @@ local function get_range_text(start_line, start_col, end_line, end_col)
   return nil
 end
 
+local function is_heading(name)
+  return name:match('markdownH%dDelimiter') or name == 'mkdHeading'
+end
+
 local function search_link_syntax(line, col, n)
   if not n then
     error('get_syntax_range_text: n is nil')
@@ -91,20 +95,16 @@ local function search_link_syntax(line, col, n)
     return
   end
 
-  if syn_name == 'mkdInlineURL' then
+  if vim.list_contains({ 'markdownUrl', 'mkdInlineURL', 'mkdURL' }, syn_name) then
     return get_range_text(start_line, start_col, end_line, end_col)
   end
 
-  if syn_name == 'mkdLink' then
+  if vim.list_contains({ 'mkdLink', 'markdownLinkText' }, syn_name) then
     return search_link_syntax(end_line, end_col + 3, n)
   end
 
-  if syn_name == 'mkdDelimiter' then
+  if vim.list_contains({ 'mkdDelimiter', 'markdownLinkDelimiter' }, syn_name) then
     return search_link_syntax(end_line, end_col + 1, n)
-  end
-
-  if syn_name == 'mkdURL' then
-    return get_range_text(start_line, start_col, end_line, end_col)
   end
 
   return nil
@@ -122,7 +122,7 @@ function M.headings()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local headings = {}
   for ln = 1, #lines do
-    if get_syntax_name(ln, 1) == 'mkdHeading' then
+    if is_heading(get_syntax_name(ln, 1)) then
       local line = lines[ln]
       local level = #line:match('^#+')
       local text = vim.trim(line:gsub('%[(.+)%]%(.+%)', ' %1 '):gsub(' +', ' '):gsub('# *', ''))
