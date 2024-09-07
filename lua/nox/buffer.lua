@@ -138,4 +138,10 @@ function M.headings()
   return headings
 end
 
+function M.insert_text(text)
+  local _, line, col, _ = unpack(vim.fn.getcurpos())
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_text(buf, line - 1, col - 1, line - 1, col - 1, { text })
+end
+
 return M

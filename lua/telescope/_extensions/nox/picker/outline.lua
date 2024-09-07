@@ -13,6 +13,10 @@ local indent = function(s, n)
   return string.rep(' ', (n - 1) * 2) .. s
 end
 
+local to_anchor_id = function(s)
+  return vim.trim(s:gsub('[^%w%s%-]+', ''):lower():gsub(' ', '-'))
+end
+
 function outline.picker(opts)
   opts = opts or {}
 
@@ -27,17 +31,25 @@ function outline.picker(opts)
           return {
             value = heading,
             display = indent(heading.text, heading.level),
-            ordinal = heading.line_number,
+            ordinal = heading.text,
           }
         end,
       },
       sorter = sorters.get_generic_fuzzy_sorter(),
-      attach_mappings = function(prompt_bufnr, _)
+      attach_mappings = function(prompt_bufnr, map)
         -- Open the document
         actions.select_default:replace(function()
           actions.close(prompt_bufnr)
-          local selection = state.get_selected_entry()
-          vim.cmd(tostring(selection.value.line_number))
+          local heading = state.get_selected_entry().value
+          vim.cmd(tostring(heading.line_number))
+        end)
+
+        -- Insert the link
+        map({ 'i', 'n' }, '<C-l>', function()
+          actions.close(prompt_bufnr)
+          local heading = state.get_selected_entry().value
+          local link = '[' .. heading.text .. '](#mkd-' .. to_anchor_id(heading.text) .. ')'
+          buffer.insert_text(link)
         end)
 
         return true
