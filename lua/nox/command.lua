@@ -1,3 +1,4 @@
+local api = require('nox.api')
 local buffer = require('nox.buffer')
 
 local M = {}
@@ -22,9 +23,27 @@ local function open(command, url)
   end
 end
 
-function M.open_link_on_cursor(open_command, fallback)
-  local api = require('nox.api')
+function M.back_references()
+  local ulid = vim.fn['nox#buffer#get_attribute']('ulid')
+  local query
 
+  if ulid == vim.NIL then
+    local id = vim.fn['nox#buffer#document_id']()
+    query = '&@"' .. id .. '"'
+  else
+    query = '&@' .. ulid
+  end
+
+  require('telescope._extensions.nox.picker.search').picker { query = query }
+end
+
+function M.meta()
+  local id = vim.fn['nox#buffer#document_id']()
+  assert(id ~= vim.NIL)
+  vim.print(api.meta(id))
+end
+
+function M.open_link_on_cursor(open_command, fallback)
   local url = buffer.link_on_cursor()
   if not url then
     if fallback then
@@ -48,20 +67,6 @@ function M.open_link_on_cursor(open_command, fallback)
   end
 
   open(open_command, vim.fn['nox#id#to_url'](id))
-end
-
-function M.back_references()
-  local ulid = vim.fn['nox#buffer#get_attribute']('ulid')
-  local query
-
-  if ulid == vim.NIL then
-    local id = vim.fn['nox#buffer#document_id']()
-    query = '&@"' .. id .. '"'
-  else
-    query = '&@' .. ulid
-  end
-
-  require('telescope._extensions.nox.picker.search').picker { query = query }
 end
 
 return M
