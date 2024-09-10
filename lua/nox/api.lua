@@ -67,8 +67,8 @@ end
 
 -- }}}
 
-function M.meta(id, update)
-  return request('get', '/api/meta', vanish { id = id, update = update })
+function M.meta(id)
+  return request('get', '/api/meta', vanish { id = id })
 end
 
 function M.new(id, title)
