@@ -26,6 +26,18 @@ local vanish = function(tbl)
   return result
 end
 
+local fix_values = function(tbl)
+  local result = {}
+  for key, value in pairs(tbl) do
+    if type(value) == 'boolean' then
+      result[key] = value and '1' or '0'
+    else
+      result[key] = value
+    end
+  end
+  return result
+end
+
 local request = function(method, path, query, body)
   local body_file = nil
 
@@ -37,7 +49,7 @@ local request = function(method, path, query, body)
   local resp = curl.request {
     url = vim.g.nox_endpoint .. path,
     method = method,
-    query = (query and vanish(query)),
+    query = (query and fix_values(vanish(query))),
     body = body_file,
     headers = make_headers(),
   }

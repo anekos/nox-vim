@@ -23,7 +23,6 @@ function! nox#api#get_document(id) abort
   return nox#web#request('GET', '/api/document', {'id': a:id}, v:null)
 endfunction
 
-
 function! nox#api#get_source(id) abort
   let l:result = nox#web#request('GET', '/api/source', {'id': a:id}, v:null)
   if l:result != v:null
