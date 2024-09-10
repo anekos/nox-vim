@@ -14,6 +14,10 @@ end, {
   end,
 })
 
+vim.api.nvim_create_user_command('NoxMeta', function()
+  command.meta()
+end, {})
+
 vim.api.nvim_create_user_command('NoxOgp', function(opts)
   command.ogp(opts.args)
 end, {
