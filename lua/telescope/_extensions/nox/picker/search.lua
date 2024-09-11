@@ -9,6 +9,8 @@ local api = require('telescope._extensions.nox.api')
 local config = require('telescope._extensions.nox.config')
 local previewer = require('telescope._extensions.nox.previewer')
 
+local buffer = require('nox.buffer')
+
 local search = {}
 
 local displayer = entry_display.create {
@@ -79,7 +81,7 @@ function search.picker(opts)
           local hit = selection.value
           local parts = vim.fn.split(hit.source.title, '/')
           local text = '[' .. parts[#{ parts }] .. '](@' .. hit.source.ulid .. ')'
-          vim.fn.append('.', text)
+          buffer.insert_text(text)
         end)
 
         map({ 'i', 'n' }, '<C-e>', function()
