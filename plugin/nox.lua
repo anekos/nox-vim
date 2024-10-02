@@ -1,6 +1,13 @@
 local command = require('nox.command')
 local autocmd = require('nox.autocmd')
 
+vim.api.nvim_create_user_command('NoxAttach', function(opts)
+  command.attach_file(opts.args)
+end, {
+  nargs = '*',
+  complete = 'file',
+})
+
 vim.api.nvim_create_user_command('NoxBackref', function()
   command.back_references()
 end, {})

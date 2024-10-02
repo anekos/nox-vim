@@ -37,11 +37,6 @@ function! nox#document#goto_nth_header(nth) abort
   call s:goto_nth_header(a:nth)
 endfunction
 
-function! nox#document#attach_file(filepath) abort
-  let l:id = nox#buffer#document_id()
-  call nox#api#attach_file(l:id, a:filepath)
-endfunction
-
 function! nox#document#delete() abort
   let l:res = input('Delete this document? [yes/N] ')
   if l:res != 'yes'

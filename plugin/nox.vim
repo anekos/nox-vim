@@ -1,10 +1,5 @@
 command! -nargs=0 NoxDelete call nox#document#delete()
 
-command! -nargs=1
-  \ -complete=file
-  \ NoxAttach
-  \ call nox#document#attach_file(<q-args>)
-
 command! -nargs=?
   \ NoxBrowse
   \ call nox#browser#open(<q-args>)

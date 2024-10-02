@@ -3,6 +3,24 @@ local buffer = require('nox.buffer')
 
 local M = {}
 
+local function urlencode(url)
+  local function hex(c)
+    return string.format('%%%02X', string.byte(c))
+  end
+  url = url:gsub('([^%w ])', hex)
+  url = url:gsub(' ', '+')
+  return url
+end
+
+function M.attach_file(filepath)
+  local id = vim.fn['nox#buffer#document_id']()
+  filepath = vim.fn.fnamemodify(filepath, ':p')
+  vim.fn['nox#api#attach_file'](id, filepath)
+  local name = vim.fn.fnamemodify(filepath, ':t')
+  local link = '&' .. urlencode(name) .. '@' .. urlencode(id)
+  buffer.insert_text('[' .. name .. '](' .. link .. ')')
+end
+
 function M.ogp(format)
   if format == '' then
     format = 'a'
