@@ -13,11 +13,12 @@ local function urlencode(url)
 end
 
 function M.attach_file(filepath)
+  local ulid = vim.fn['nox#buffer#get_attribute']('ulid')
   local id = vim.fn['nox#buffer#document_id']()
   filepath = vim.fn.fnamemodify(filepath, ':p')
   vim.fn['nox#api#attach_file'](id, filepath)
   local name = vim.fn.fnamemodify(filepath, ':t')
-  local link = '&' .. urlencode(name) .. '@' .. urlencode(id)
+  local link = '&' .. urlencode(name) .. '@' .. urlencode(ulid or id)
   buffer.insert_text('[' .. name .. '](' .. link .. ')')
 end
 
