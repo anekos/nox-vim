@@ -7,8 +7,7 @@ local function urlencode(url)
   local function hex(c)
     return string.format('%%%02X', string.byte(c))
   end
-  url = url:gsub('([^%w ])', hex)
-  url = url:gsub(' ', '+')
+  url = url:gsub('([^%w])', hex)
   return url
 end
 
