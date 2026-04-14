@@ -63,7 +63,11 @@ function M.meta()
 end
 
 function M.open_browser(id)
-  local encoded_id = urlencode(id)
+  local parts = vim.split(id, '/')
+  for i, part in ipairs(parts) do
+    parts[i] = urlencode(part)
+  end
+  local encoded_id = table.concat(parts, '/')
   vim.fn.OpenBrowser(vim.g.nox_endpoint .. '/doc/view/' .. encoded_id)
 end
 
