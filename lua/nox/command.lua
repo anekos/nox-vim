@@ -62,6 +62,11 @@ function M.meta()
   vim.print(api.meta(id))
 end
 
+function M.open_browser(id)
+  local encoded_id = urlencode(id)
+  vim.fn.OpenBrowser(vim.g.nox_endpoint .. '/doc/view/' .. encoded_id)
+end
+
 function M.open_link_on_cursor(open_command, fallback)
   local url = buffer.link_on_cursor()
   if not url then

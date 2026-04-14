@@ -14,7 +14,7 @@ function! nox#browser#open(id) abort
   else
     let l:id = a:id
   endif
-  call OpenBrowser(g:nox_endpoint . '/doc/view/' . l:id)
+  call v:lua.require('nox.command').open_browser(l:id)
 endfunction
 
 
